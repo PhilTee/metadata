@@ -1,4 +1,5 @@
 class Metavalue < ActiveRecord::Base
   belongs_to :user
-  has_one :metakey
+  belongs_to :metakey
+  
 end

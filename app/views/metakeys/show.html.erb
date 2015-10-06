@@ -1,5 +1,5 @@
 <p id="notice"><%= notice %></p>
-
+<% typedescriptions = { "s" => "String", "i" => "Integer", "d" => "Date"} %>
     <table>
       <tr>
         <th> Name </th>
@@ -7,7 +7,7 @@
       </tr>
       <tr>
         <th> Type </th>
-        <td> <%= @metakey.typeof %> <td/>
+        <td> <%= typedescriptions[@metakey.typeof] || "<i>#{@metakey.typeof}</i>" %> <td/>
       </tr>
       <tr>
         <th> Facets </th>

@@ -7,8 +7,12 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+<%= link_to "Users", users_path %>
+| 
 <%= link_to "Facets", facets_path %>
+|
 <%= link_to "Meta Keys", metakeys_path %>
+
 <%= yield %>
 
 </body>
