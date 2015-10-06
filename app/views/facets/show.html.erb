@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+    <table>
+      <tr>
+        <th>Name</th>
+        <td><%= @facet.name %></td>
+      </tr>
+      <tr>
+        <th>Description</th>
+        <td><%= @facet.description %></td>
+      </tr>
+      <tr>
+        <th> MetaKeys </th>
+        <td> <%= @facet.metakeys.map { |mk| mk.name}.join(', ') %> </td>
+      </tr>
+    </table>
+
+<%= link_to 'Edit', edit_facet_path(@facet) %> |
+<%= link_to 'Back', facets_path %>

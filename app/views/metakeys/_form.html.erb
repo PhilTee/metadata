@@ -1,0 +1,31 @@
+<%= form_for(@metakey) do |f| %>
+  <% if @metakey.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@metakey.errors.count, "error") %> prohibited this metakey from being saved:</h2>
+
+      <ul>
+      <% @metakey.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <% console %>
+  <div class="actions">
+    <table>
+      <tr>
+        <th> <%= f.label :name %> </th>
+        <td> <%= f.text_field :name %> </td>
+      </tr>
+      <tr>
+        <th> <%= f.label :typeof %> </th>
+        <td> <%= f.select :typeof, options_for_select([["String","s"],["Date","d"],"Integer","i"]) %> <td/>
+      </tr>
+      <tr>
+        <th> Facets </th>
+        <td> <%= f.collection_check_boxes :facet_ids, Facet.all, :id, :name %> </td>
+      </tr>
+    </table>
+    <%= f.submit %>
+  </div>
+<% end %>
