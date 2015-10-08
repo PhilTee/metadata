@@ -2,19 +2,37 @@ class User < ActiveRecord::Base
   has_many :metavalues
   has_many :metakeys, through: :metavalues
 
-  after_initialize :buildmetadata
-
   def metadata
-    @metadata
+    @metadata ||= buildmetadata
   end
 
-  #TODO: Need to capture changes to self.metadata to feed these back into ActiveRecord
+  def metadata= (values)
+    puts "metadata setter here!"
+    @metadata ||= buildmetadata
+    
+    #Reject any values that aren't already present in metadata
+    filtered = values.select{ |k,v| puts "#{k}"; @metadata.has_key?(k.to_s) }
+    filtered.inspect
+    filtered.each do |key,val|
+      
+      puts "Processing #{key}..."
+      mv = self.metavfind_by_name(key)
+      if mv
+        puts "\t Got a hit!"
+        mv.value=val
+        #u.save
+      end
+    end
+    
+  end
 
   private
 
   def buildmetadata
-    @metadata = {};
-    self.metavalues.map { |v| @metadata[ v.metakey.name.parameterize.underscore.to_sym ] = v.value  }
+    #TODO: Might need to optimise this in the future, as this is an N+1 source.
+    @metadata = Hash.new
+    self.metavalues.map { |v| @metadata[ v.metakey.name ] = v.value  }
+    return @metadata
   end
 
 end
