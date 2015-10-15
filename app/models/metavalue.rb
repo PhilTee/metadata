@@ -1,8 +1,4 @@
 class Metavalue < ActiveRecord::Base
   belongs_to :user
-  belongs_to :metakey
-  
-  def find_by_metakey_name()
-  end
-  
+  belongs_to :metakey, inverse_of: :metavalues
 end
