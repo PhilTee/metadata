@@ -1,3 +1,4 @@
+<%= @user.metadata.inspect %>
 <%= form_for(@user) do |f| %>
   <% if @user.errors.any? %>
     <div id="error_explanation">
@@ -12,6 +13,20 @@
   <% end %>
 
   <div class="actions">
+    <table>
+    <% #TODO: Display all metakeys in the available facets, populate any fields where metadata pre-exists %>
+    <% @user.metadata.each do |key, value| %>
+      <tr>
+        <th>
+          <%= f.label :"metadata[#{key}]", "#{key}" %>
+        </th>
+        <td>
+          <%= f.text_field :"metadata[#{key}]", :value => "#{value}" %>
+          &nbsp;
+        </td>
+      </tr>
+    <% end %>
+    </table>
     <%= f.submit %>
   </div>
 <% end %>

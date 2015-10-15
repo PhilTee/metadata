@@ -1,19 +1,19 @@
 <p id="notice"><%= notice %></p>
 <% typedescriptions = { "s" => "String", "i" => "Integer", "d" => "Date"} %>
-    <table>
-      <tr>
-        <th> Name </th>
-        <td> <%= @metakey.name %> </td>
-      </tr>
-      <tr>
-        <th> Type </th>
-        <td> <%= typedescriptions[@metakey.typeof] || "<i>#{@metakey.typeof}</i>" %> <td/>
-      </tr>
-      <tr>
-        <th> Facets </th>
-        <td> <%= @metakey.facets.map { |f| f.name}.join(', ') %> </td>
-      </tr>
-    </table>
+<table>
+  <tr>
+    <th> Name </th>
+    <td> <%= @metakey.name %> </td>
+  </tr>
+  <tr>
+    <th> Type </th>
+    <td> <%= typedescriptions[@metakey.typeof] || "<i>#{@metakey.typeof}</i>" %> <td/>
+  </tr>
+  <tr>
+    <th> Facets </th>
+    <td> <%= @metakey.facets.map { |f| f.name}.join(', ') %> </td>
+  </tr>
+</table>
 
 <%= link_to 'Edit', edit_metakey_path(@metakey) %> |
 <%= link_to 'Back', metakeys_path %>
