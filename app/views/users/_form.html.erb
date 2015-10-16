@@ -14,16 +14,22 @@
 
   <div class="actions">
     <table>
-    <% #TODO: Display all metakeys in the available facets, populate any fields where metadata pre-exists %>
-    <% @user.metadata.each do |key, value| %>
+    <% #TODO: Display all metakeys in the available facets %>
+    <% Metakey.all.each do |metakey| %>
+    <%# @user.metadata.each do |key, value| %>
       <tr>
         <th>
-          <%= f.label :"metadata[#{key}]", "#{key}" %>
+          <%= f.label :"metadata[#{metakey.name}]", "#{metakey.name}" %>
         </th>
         <td>
-          <%= f.text_field :"metadata[#{key}]", :value => "#{value}" %>
-          &nbsp;
+          <% if @user.metadata.has_key?(metakey.name) %>
+            <%= f.text_field :"metadata[#{metakey.name}]", :value => "#{@user.metadata[metakey.name]}" %>
+            <%= link_to "Destroy", metavalue_path(@user.metakeys.find_by_name(metakey.name).metavalues.find_by_user_id(@user.id)), method: :delete %>            
+          <% else %>
+            <%= f.text_field :"metadata[#{metakey.name}]", :value => "" %>
+          <% end %>
         </td>
+
       </tr>
     <% end %>
     </table>

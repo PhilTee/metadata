@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
+  #TODO: Think we need some sort of Helper to DRY up: @user.metakeys.find_by_name(metakey.name).metavalues.find_by_user_id(@user.id)
+
   # GET /users
   # GET /users.json
   def index

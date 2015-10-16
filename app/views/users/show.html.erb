@@ -1,13 +1,11 @@
 <p id="notice"><%= notice %></p>
-
-<%= @user.metadata.each do |key, value| %>
-  <table>
+<table>
+  <% @user.metadata.each do |key, value| %>
     <tr>
-      <th><%= key.to_s.humanize %></th>
+      <th align="right"><%= key.to_s.humanize %></th>
       <td><%= value %></td>
     </tr>
-  </table>
   <% end %>
-
+</table>
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
