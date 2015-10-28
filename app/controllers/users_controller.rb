@@ -1,9 +1,8 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
-
-  #TODO: Think we need some sort of Helper to DRY up: @user.metakeys.find_by_name(metakey.name).metavalues.find_by_user_id(@user.id)
-
-  # GET /users
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :process_metadata]
+  before_action :process_metadata, only: [:update]
+  
+   # GET /users
   # GET /users.json
   def index
     @users = User.all
@@ -27,7 +26,7 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
-
+    self.process_metadata if @user.save
     respond_to do |format|
       if @user.save
         format.html { redirect_to @user, notice: 'User was successfully created.' }
@@ -63,10 +62,30 @@ class UsersController < ApplicationController
     end
   end
 
+
+  # Process Metadata into Metavalues attributes
+  #TODO: might need process_metadata to be private or protected
+  def process_metadata
+    @metavalue_attributes = []
+    user_params[:metadata].each do |key,value|
+      mk = Metakey.find_by_name(key)
+      mv = Metavalue.where(metakey_id: mk.id, user_id:@user.id).first
+      if mv
+        #Update existing metavalue
+        @metavalue_attributes << { id: mv.id, value: value }
+      else
+        #Create new metavalue for user
+        @metavalue_attributes << { user_id: @user.id, metakey_id: mk.id, value: value }
+      end
+    end
+    @user.attributes = { metavalues_attributes: @metavalue_attributes }
+  end
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = User.find(params[:id])
+      @user = User.includes(:metakeys, :metavalues).find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
@@ -75,4 +94,7 @@ class UsersController < ApplicationController
         whitelisted[:metadata] = params[:user][:metadata] if params[:user][:metadata]
       end
     end
+    
+
+    
 end
